@@ -1,0 +1,71 @@
+import { defineConfig } from 'tsup';
+
+// Two builds. The client entry needs a `'use client'` directive preserved
+// at the top of the output so Next's app router treats it as a Client
+// Component; tsup's per-entry `banner` is a clean way to inject that.
+export default defineConfig([
+  {
+    entry: {
+      index: 'src/index.ts',
+      remark: 'src/remark.ts',
+      config: 'src/config.ts',
+    },
+    format: ['esm'],
+    // Use the build-only tsconfig (rootDir: ./src, no tests/) so tsc's
+    // emit doesn't error on tests/ when resolving the
+    // `nextra-dgmo/client.css` self-reference; the main tsconfig.json
+    // includes tests/ for `pnpm typecheck`, which would conflict with
+    // rootDir if we tried to share a single config.
+    tsconfig: './tsconfig.build.json',
+    dts: true,
+    clean: true,
+    sourcemap: true,
+    target: 'node20',
+    external: [
+      '@diagrammo/dgmo',
+      'nextra',
+      'remark-dgmo',
+      'react',
+      'next',
+      'next/navigation',
+    ],
+  },
+  {
+    entry: { 'nextra-client': 'src/nextra-client.tsx' },
+    format: ['esm'],
+    // Use the build-only tsconfig (rootDir: ./src, no tests/) so tsc's
+    // emit doesn't error on tests/ when resolving the
+    // `nextra-dgmo/client.css` self-reference; the main tsconfig.json
+    // includes tests/ for `pnpm typecheck`, which would conflict with
+    // rootDir if we tried to share a single config.
+    tsconfig: './tsconfig.build.json',
+    dts: true,
+    clean: false,
+    sourcemap: true,
+    target: 'es2022',
+    banner: { js: "'use client';" },
+    // `nextra-dgmo/client.css` is a self-reference picked up by Next's
+    // CSS pipeline at consumer build time — esbuild must NOT try to
+    // resolve or bundle it (the file lives in our own dist/, written by
+    // scripts/build-css.mjs after the JS build finishes).
+    external: [
+      '@diagrammo/dgmo',
+      'react',
+      'next',
+      'next/navigation',
+      'nextra-dgmo/client.css',
+    ],
+    // `remark-dgmo` is intentionally INLINED into the client bundle
+    // (~2.6 KB) so consumers don't have to resolve a bare
+    // `remark-dgmo/client.js` specifier from inside our linked package
+    // — Turbopack and other modern bundlers don't reliably traverse
+    // the two-hop symlink chain that pnpm `link:` creates between
+    // wrapper and core during dev, and even some real consumer setups
+    // hit the same edge case with pnpm's strict node_modules layout.
+    // tsup auto-externalizes anything declared in `dependencies`, so
+    // we must explicitly opt back in via `noExternal`. The server
+    // entries above still externalize `remark-dgmo` so users can
+    // share the plugin instance.
+    noExternal: ['remark-dgmo'],
+  },
+]);
