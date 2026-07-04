@@ -1,0 +1,71 @@
+---
+title: Diagrams
+description: Canonical DGMO diagram shapes exercising the nextra-dgmo wrapper.
+---
+
+This page is the fixture for `nextra-dgmo` + `remark-dgmo`. On GitHub Pages,
+CI overwrites the body below with dgmo-content's full `all-chart-types.md`
+(every chart type) via `scripts/compose-showcase.mjs`. The committed version
+below exercises four canonical shapes for local development.
+
+## Plain block (colorMode auto — dual-render)
+
+Render once light, once dark. Toggle the theme switcher in the Nextra nav —
+only the matching SVG should be visible.
+
+```dgmo
+sequence
+Browser -GET /-> Server
+Server -200 OK-> Browser
+```
+
+## Colored sequence diagram with tags
+
+Sequence diagrams can use `tag` blocks to assign explicit colors to actors.
+
+```dgmo
+sequence Treasure Hunt App
+active-tag Layer
+
+tag Layer as l
+  Frontend teal
+  Backend purple
+  Data red
+
+User is an actor
+WebApp l: Frontend
+API l: Backend
+MapDB is a database l: Data
+
+User -Search nearby loot-> WebApp
+WebApp -GET /loot?lat&lon-> API
+API -SELECT-> MapDB
+MapDB -rows-> API
+API -200 OK-> WebApp
+WebApp -render markers-> User
+```
+
+## Showcase mode
+
+Diagram first, then a collapsible disclosure with the source and the
+open-in-editor + copy buttons in the toolbar row.
+
+```dgmo showcase title="Login flow"
+sequence
+Client -POST /login-> API
+API -validate-> Auth
+Auth -JWT-> API
+API -200 OK-> Client
+```
+
+## Per-block override — single-render light, catppuccin palette
+
+Only one SVG, no toggle effect. The `palette=` and `colorMode=` fence options
+override the integration defaults for this block alone.
+
+```dgmo palette=catppuccin colorMode=light
+pie
+TypeScript  45
+Python       30
+Rust         25
+```

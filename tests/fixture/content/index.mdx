@@ -1,0 +1,19 @@
+---
+title: nextra-dgmo fixture
+description: Minimal Nextra site exercising the dgmo wrapper.
+---
+
+# nextra-dgmo fixture
+
+Minimal Nextra (Next.js app router) site wired with `nextra-dgmo`. It renders
+DGMO diagrams from fenced `dgmo` code blocks at build time.
+
+Head to the [**Diagrams showcase**](/docs/diagrams) — on GitHub Pages the CI
+composes it from dgmo-content's `all-chart-types.md`, so every DGMO chart type
+renders on that one page.
+
+```dgmo
+sequence
+Browser -GET /-> Server
+Server -200 OK-> Browser
+```
