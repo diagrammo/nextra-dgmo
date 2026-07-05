@@ -1,6 +1,6 @@
 {
   "name": "nextra-dgmo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Nextra integration to render DGMO diagrams from fenced code blocks at build time. Two-step install: `withDgmo()` in next.config.mjs plus `<DgmoClient />` in app/layout.tsx — the client component handles route-change rebinding and auto-imports the theme-aware stylesheet.",
   "license": "MIT",
   "repository": {
@@ -78,7 +78,7 @@
     "prepublishOnly": "pnpm build && pnpm test"
   },
   "peerDependencies": {
-    "@diagrammo/dgmo": "^0.44.0",
+    "@diagrammo/dgmo": "^0.45.0",
     "next": "^15.0.0 || ^16.0.0",
     "nextra": "^4.0.0",
     "react": "^19.0.0"
@@ -95,20 +95,20 @@
     }
   },
   "dependencies": {
-    "remark-dgmo": "^0.4.0"
+    "remark-dgmo": "^0.5.0"
   },
   "devDependencies": {
-    "@diagrammo/dgmo": "^0.44.0",
+    "@diagrammo/dgmo": "^0.45.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@vitest/coverage-v8": "^4.1.6",
     "depcheck": "^1.4.7",
     "eslint": "^10.4.0",
-    "next": "^16.0.0",
-    "nextra": "^4.0.0",
     "jscpd": "^4.0.9",
     "knip": "^6.14.1",
+    "next": "^16.0.0",
+    "nextra": "^4.0.0",
     "prettier": "^3.8.3",
     "react": "^19.0.0",
     "tsup": "^8.5.1",

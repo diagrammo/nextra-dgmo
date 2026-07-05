@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "ignore": ["scripts/**"],
+  "ignore": ["scripts/**", "tests/fixture/**"],
   "ignoreDependencies": ["nextra"],
   "ignoreExportsUsedInFile": true,
   "rules": {
