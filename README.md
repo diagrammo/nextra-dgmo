@@ -2,7 +2,7 @@
 
 Render [DGMO](https://diagrammo.app) diagrams from ` ```dgmo ` fenced code blocks in your [Nextra](https://nextra.site) site at build time. Powered by [`@diagrammo/dgmo`](https://www.npmjs.com/package/@diagrammo/dgmo) and the framework-agnostic [`remark-dgmo`](https://www.npmjs.com/package/remark-dgmo) core. Zero client JavaScript by default (one tiny re-binder fires on route change).
 
-📖 **Setup guide:** [diagrammo.app/embed#nextra](https://diagrammo.app/embed#nextra)
+📖 **Setup guide:** [diagrammo.app/embed#nextra](https://diagrammo.app/embed#nextra) · 🔭 **Live showcase:** [every chart type rendered through nextra-dgmo](https://diagrammo.github.io/nextra-dgmo/) — every block is in showcase mode, so hovering a diagram reveals its copy / open-in-editor footer.
 
 Every diagram is rendered twice at build time (light + dark palettes) and follows Nextra's color-mode toggle through a shipped, `.dark`-rewritten stylesheet.
 

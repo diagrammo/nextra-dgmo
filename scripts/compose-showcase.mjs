@@ -33,7 +33,12 @@ if (!fm) {
 }
 
 // Drop the source H1 — the page frontmatter title already serves as heading.
-let body = showcase.replace(/^#[^\n]*\n/, '');
+// Force every ```dgmo fence into showcase mode so the deployed gallery actually
+// demonstrates the hover-reveal footer (source + copy + open-in-editor). The
+// upstream fences are bare `dgmo` (diagram mode), which ships no footer at all.
+let body = showcase
+  .replace(/^#[^\n]*\n/, '')
+  .replace(/^```dgmo$/gm, '```dgmo showcase');
 
 // Strip HTML comments (`<!-- … -->`). Nextra compiles `.mdx` content with the
 // MDX (JSX) parser, which rejects the `<!` sequence as a malformed tag
