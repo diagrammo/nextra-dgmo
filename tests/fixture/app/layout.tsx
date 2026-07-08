@@ -10,10 +10,9 @@ import type { ReactNode } from 'react';
 const base = process.env.PAGES_BASE || '';
 
 export const metadata = {
-  title: {
-    default: 'Diagrammo × Nextra',
-    template: '%s · Diagrammo × Nextra',
-  },
+  // Uniform brand tab title across every showcase page (generateMetadata drops
+  // each page's own title so this default always wins).
+  title: 'Diagrammo × Nextra',
   description: 'Nextra site exercising the dgmo wrapper.',
   icons: {
     icon: [

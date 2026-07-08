@@ -10,7 +10,10 @@ interface PageProps {
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
   const { metadata } = await importPage(params.mdxPath);
-  return metadata;
+  // Drop the page's own title so the root layout's "Diagrammo × Nextra" default
+  // is the tab title on every showcase page.
+  const { title: _title, ...rest } = metadata;
+  return rest;
 }
 
 const Wrapper = getMDXComponents().wrapper!;
