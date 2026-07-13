@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@diagrammo/dgmo": "^0.49.0",
+    "@diagrammo/dgmo": ">=0.50.0 <1",
     "next": "^16.0.0",
     "nextra": "^4.0.0",
     "nextra-dgmo": "link:../..",
