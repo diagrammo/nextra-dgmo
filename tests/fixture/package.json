@@ -9,14 +9,14 @@
     "start": "next start"
   },
   "dependencies": {
-    "@diagrammo/dgmo": ">=0.50.0 <1",
+    "@diagrammo/dgmo": "^0.53.0",
     "next": "^16.0.0",
     "nextra": "^4.0.0",
     "nextra-dgmo": "link:../..",
     "nextra-theme-docs": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "remark-dgmo": "^0.6.0"
+    "remark-dgmo": "^0.10.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
