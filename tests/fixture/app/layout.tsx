@@ -1,10 +1,10 @@
 import 'nextra-theme-docs/style.css';
 import { Footer, Layout, Navbar } from 'nextra-theme-docs';
-import { Head } from 'nextra/components';
+import { Banner, Head } from 'nextra/components';
 import { getPageMap } from 'nextra/page-map';
 import { DgmoClient } from 'nextra-dgmo/client';
 import type { ReactNode } from 'react';
-import { EmbedBanner } from './embed-banner';
+import { EmbedBannerLink, EMBED_BANNER_CSS } from './embed-banner';
 
 // `basePath`-aware favicon href: Next does not prefix metadata icons with
 // basePath, so bake the Pages subpath in explicitly (empty at root in dev).
@@ -37,6 +37,14 @@ const navbar = (
 );
 const footer = <Footer>MIT — nextra-dgmo fixture</Footer>;
 
+// Diagrammo brand top-bar. Passed as Nextra's `banner` so the theme positions it
+// above the navbar and reserves layout space (no overlap / no scroll-off).
+const banner = (
+  <Banner dismissible={false} className="dgmo-nx-inner">
+    <EmbedBannerLink />
+  </Banner>
+);
+
 export default async function RootLayout({
   children,
 }: {
@@ -46,8 +54,9 @@ export default async function RootLayout({
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head />
       <body>
-        <EmbedBanner />
+        <style dangerouslySetInnerHTML={{ __html: EMBED_BANNER_CSS }} />
         <Layout
+          banner={banner}
           navbar={navbar}
           pageMap={await getPageMap()}
           docsRepositoryBase="https://github.com/diagrammo/nextra-dgmo/tree/main/tests/fixture"
