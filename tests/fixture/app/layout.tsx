@@ -4,6 +4,7 @@ import { Head } from 'nextra/components';
 import { getPageMap } from 'nextra/page-map';
 import { DgmoClient } from 'nextra-dgmo/client';
 import type { ReactNode } from 'react';
+import { EmbedBanner } from './embed-banner';
 
 // `basePath`-aware favicon href: Next does not prefix metadata icons with
 // basePath, so bake the Pages subpath in explicitly (empty at root in dev).
@@ -22,7 +23,18 @@ export const metadata = {
   },
 };
 
-const navbar = <Navbar logo={<b>nextra-dgmo</b>} />;
+// Match the showcase banner's brand: logo mark + wordmark, linking home.
+const navbar = (
+  <Navbar
+    logo={
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+        <img src={`${base}/favicon.svg`} alt="" width={24} height={24} style={{ borderRadius: 6 }} />
+        <b style={{ fontSize: '1.05rem' }}>Diagrammo</b>
+      </span>
+    }
+    logoLink="https://diagrammo.app"
+  />
+);
 const footer = <Footer>MIT — nextra-dgmo fixture</Footer>;
 
 export default async function RootLayout({
@@ -34,6 +46,7 @@ export default async function RootLayout({
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <Head />
       <body>
+        <EmbedBanner />
         <Layout
           navbar={navbar}
           pageMap={await getPageMap()}
