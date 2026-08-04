@@ -8,9 +8,9 @@ Shared wrapper contract: [`../remark-dgmo/WRAPPER-CONVENTIONS.md`](../remark-dgm
 
 ## Versions — read `package.json`
 
-- `remark-dgmo` `^0.12.0` (moved 2026-08-03 — a caret on `0.x` locks the minor, so this never happens on its own)
-- peers: `@diagrammo/dgmo` `>=0.58.0 <1`, `nextra` `^4.0.0`, `next` `^15 || ^16`, `react` `^19`
-- `tests/fixture/` pins both **exactly** (`0.12.0` / `0.59.0`) rather than by range, so the Pages showcase can never build against a `remark-dgmo` that predates live links
+- `remark-dgmo` `^0.14.0` (moved 2026-08-04 — a caret on `0.x` locks the minor, so this never happens on its own)
+- peers: `@diagrammo/dgmo` `>=0.60.0 <1`, `nextra` `^4.0.0`, `next` `^15 || ^16`, `react` `^19`. The floor tracks remark-dgmo's own: 0.14.0 imports `@diagrammo/dgmo/live-link-resolve`, a subpath that first exists in dgmo 0.60.0
+- `tests/fixture/` pins both **exactly** (`0.14.0` / `0.60.0`) rather than by range, so the Pages showcase can never build against a `remark-dgmo` that predates live links
 - Caret on a `0.x` dep pins the **minor** — a `remark-dgmo` minor needs an explicit bump here
 
 ## Host specifics
