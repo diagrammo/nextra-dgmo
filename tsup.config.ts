@@ -31,7 +31,10 @@ export default defineConfig([
     ],
   },
   {
-    entry: { 'nextra-client': 'src/nextra-client.tsx' },
+    entry: {
+      'nextra-client': 'src/nextra-client.tsx',
+      'nextra-render-client': 'src/nextra-render-client.tsx',
+    },
     format: ['esm'],
     // Use the build-only tsconfig (rootDir: ./src, no tests/) so tsc's
     // emit doesn't error on tests/ when resolving the

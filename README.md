@@ -161,6 +161,36 @@ A -> B
 
 See the [`remark-dgmo` README](https://github.com/diagrammo/remark-dgmo) for the full option matrix.
 
+## Live links: when a diagram changes after you build
+
+A fence can name a published [Diagrammo Cloud](https://diagrammo.app) diagram instead of carrying its own source:
+
+````markdown
+```dgmo
+live-link dgm_01HQ3RSTUV
+```
+````
+
+The build fetches it, renders it like any other block, and writes what it fetched to `.dgmo/references/<id>.json` — **commit that directory.** It is what keeps your build reproducible and independent of our uptime.
+
+If the diagram changes after your last build, the page **notices** by default: readers get a small link to the live version. Re-drawing it in the browser instead means shipping the renderer, so it takes two steps that are really one decision.
+
+```js
+// next.config.mjs
+const withNextra = nextra(
+  withDgmo({}, { dgmo: { liveLink: { refresh: 'render' } } })
+);
+```
+
+```tsx
+// app/layout.tsx — beside <DgmoClient />
+import { DgmoRenderClient } from 'nextra-dgmo/client-render';
+```
+
+Set the option without mounting the component and your build says so, once, naming both. Next emits the renderer as its own chunk, fetched only when a diagram has actually changed.
+
+⚠️ If your site sets a Content-Security-Policy it must allow `connect-src https://api.diagrammo.app`, or the baked diagram renders and simply never updates.
+
 ## How CSS is delivered
 
 `nextra-dgmo/client.css` is the shipped stylesheet. It's the same three visibility rules + sizing + showcase chrome as upstream `remark-dgmo/client.css`, but the dark-mode selector is rewritten from `[data-theme="dark"]` to `html.dark` — the attribute Nextra's `next-themes` integration uses by default.
