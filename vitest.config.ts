@@ -9,18 +9,27 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/**'],
-      exclude: ['src/**/*.d.ts'],
+      // The two `'use client'` components are browser-only: they call React
+      // hooks, so they cannot run under `environment: 'node'` and this repo
+      // carries no DOM or testing-library stack to run them under. Counting
+      // them measured the absence of a test harness rather than the code, and
+      // adding the second one dropped the whole repo under its floor while the
+      // build-time surface it gates was unchanged. `vitepress-dgmo` excludes
+      // its browser-only client for the same reason.
+      exclude: [
+        'src/**/*.d.ts',
+        'src/nextra-client.tsx',
+        'src/nextra-render-client.tsx',
+      ],
       reporter: ['text-summary'],
-      // Floor ~2 pts below the measured baseline (full src/**). The
-      // client component and remark re-export are exercised at build
-      // time, not by the unit suite, so overall src/** coverage is
-      // dominated by config.ts (the only file with branching logic).
-      // Baseline: lines 83.3, statements 81.5, branches 90.9, functions 60.
+      // Floor ~2 pts below the 2026-08-06 baseline of the measured surface —
+      // `config.ts` and `index.ts`, which is what the unit suite drives.
+      // Baseline: lines 100, statements 96.9, branches 92.3, functions 100.
       thresholds: {
-        lines: 81,
-        statements: 79,
-        branches: 88,
-        functions: 58,
+        lines: 98,
+        statements: 94,
+        branches: 89,
+        functions: 98,
       },
     },
   },
