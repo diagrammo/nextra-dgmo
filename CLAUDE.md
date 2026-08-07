@@ -24,6 +24,10 @@ Shared wrapper contract: [`../remark-dgmo/WRAPPER-CONVENTIONS.md`](../remark-dgm
 
 ## Verify
 
-🔴 **This is the only wrapper with no e2e in CI.** `scripts/assert-build-output.mjs` exists and is written, but there is no `test:e2e` script in `package.json` and no fixture-build step in `ci.yml` — CI stops at `check:all` / build / typecheck / unit tests. The de facto build check is `pages.yml`, which composes dgmo-content's all-chart-types page into the fixture and runs `next build --webpack`. Wiring `test:e2e` the way the other three do is the obvious gap to close.
+`pnpm test:e2e` runs in CI as of **2026-08-06**, closing the gap that made this the only wrapper whose fixture CI never built. It static-exports `tests/fixture/` and runs `scripts/assert-build-output.mjs`: dual-render class names in the HTML, a `_next/static` CSS file carrying the rewritten `html.dark` selector, no jsdom sentinel in page chunks, and gzipped page JS within 100 KB of `baseline-bundle-size.json`. The script had been written but never once run; its first run passed.
+
+⚠️ **The baseline was re-seeded (265,320 → 272,398 gzipped bytes) in the same change**, deliberately. The old number was captured 2026-07-04 against dgmo 0.60.0 and `remark-dgmo` 0.14.0 and had never gated anything, so enforcing against it would have been enforcing a stale measurement of different pins.
+
+`pages.yml` still composes dgmo-content's all-chart-types page into the fixture and deploys it — that is a different build from the e2e one, and it stays.
 
 Locally: `pnpm build`, then `cd tests/fixture && pnpm install --no-frozen-lockfile && pnpm dev`, open `/docs/diagrams`.

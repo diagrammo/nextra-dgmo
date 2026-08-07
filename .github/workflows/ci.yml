@@ -41,3 +41,9 @@ jobs:
 
       - name: Unit tests
         run: pnpm test
+
+      # Turbopack cannot serialize the function-valued remark plugin `withDgmo`
+      # injects, so the fixture builds with `--webpack` — the same constraint
+      # real consumers have, and the reason the README leads with it.
+      - name: Fixture build (Next static export)
+        run: pnpm test:e2e
