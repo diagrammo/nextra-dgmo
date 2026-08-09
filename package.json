@@ -3,6 +3,7 @@
   "version": "0.4.3",
   "description": "Nextra integration to render DGMO diagrams from fenced code blocks at build time. Two-step install: `withDgmo()` in next.config.mjs plus `<DgmoClient />` in app/layout.tsx — the client component handles route-change rebinding and auto-imports the theme-aware stylesheet.",
   "license": "MIT",
+  "author": "Diagrammo LLC",
   "repository": {
     "type": "git",
     "url": "https://github.com/diagrammo/nextra-dgmo.git"
