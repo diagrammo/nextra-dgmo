@@ -8,6 +8,8 @@
 // Checks:
 //   1. The diagrams page HTML contains both `dgmo-light` and `dgmo-dark`
 //      class names (dual-render emitted by remark-dgmo).
+//   1b. The map fence on that page drew real geography — no error card, no
+//      empty basemap, and both place names present in the SVG.
 //   2. The `out/_next/static/css/` directory contains at least one CSS
 //      file with the dgmo selectors (proves @import from global.css
 //      survived Next's CSS pipeline) AND the rewritten `html.dark`
@@ -57,6 +59,43 @@ const html = readFileSync(HTML_PATH, 'utf8');
 if (!/\bdgmo-light\b/.test(html)) fail('built HTML missing dgmo-light wrapper');
 if (!/\bdgmo-dark\b/.test(html)) fail('built HTML missing dgmo-dark wrapper');
 console.log('✓ HTML contains dgmo-light and dgmo-dark wrappers');
+
+// --- 1b. Map fence drew real geography ---
+// Asserted on CONTENT, not structure, and that is deliberate. dgmo 0.62.0
+// dropped the implicit filesystem read for map basemaps, so the basemaps now
+// have to be handed in by remark-dgmo. When they are not, the map still
+// parses, still lays out, and still emits a <figure> with the dgmo-light and
+// dgmo-dark wrappers — check 1 above passes either way, and `next build`
+// reports success. A dataless map is structurally indistinguishable from a
+// real one; the only thing that differs is what is inside the SVG. So the
+// checks below look for the two failure texts, then for the place names that
+// only appear once the map has actually been drawn.
+if (html.includes("Couldn't render this diagram")) {
+  fail(
+    `built HTML contains the "Couldn't render this diagram" error card — ` +
+      `a fence failed to render`
+  );
+}
+if (html.includes('no basemap data')) {
+  fail(
+    `built HTML contains "no basemap data" — remark-dgmo did not supply ` +
+      `basemaps to the map fence (dgmo >=0.62.0 no longer reads them from disk)`
+  );
+}
+// `Miami` is the load-bearing half, and the pair is deliberate: the error card
+// echoes the first three lines of the source it could not render, so `Denver`
+// (line 3) is present even in a broken build while `Miami` (line 4) is not —
+// measured against dgmo 0.66.0, not assumed. Do not "simplify" this to one
+// label, and do not reorder the fence's poi lines without re-checking it.
+for (const place of ['Denver', 'Miami']) {
+  if (!html.includes(place)) {
+    fail(
+      `built HTML missing map place name "${place}" — the map fence did not ` +
+        `render its points of interest`
+    );
+  }
+}
+console.log('✓ Map fence rendered with basemap data (Denver + Miami present)');
 
 // --- 2. CSS pipeline ---
 const cssCandidates = [];

@@ -69,3 +69,16 @@ TypeScript  45
 Python       30
 Rust         25
 ```
+
+## Map — basemap data comes from remark-dgmo
+
+Maps are the one chart type that needs geography the library does not carry in
+its own bundle. `remark-dgmo` hands the basemaps to every block it renders, so
+this map draws a real coastline rather than an error card.
+
+```dgmo
+map Port Calls
+
+poi Denver
+poi Miami
+```
