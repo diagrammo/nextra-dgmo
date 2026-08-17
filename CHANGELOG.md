@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.4.5
+
+**Verified against `@diagrammo/dgmo` 0.71.0 and `remark-dgmo` 0.14.4.** The
+declared ranges had been left where a satisfied range stops re-resolving: the
+dev range `>=0.66.0 <1` and the dependency `^0.14.2` both still matched what was
+already installed, so a plain install never went looking, and this package went
+on building and testing against dgmo **0.66.0** and `remark-dgmo` **0.14.3** —
+five dgmo minors behind — while reporting success the whole time. The ranges now
+name the versions actually exercised (`>=0.71.0 <1` and `^0.14.4`), which is
+what forces the resolution rather than merely permitting it.
+
+🟢 **The `@diagrammo/dgmo` peer floor deliberately does not move**, and stays
+`>=0.61.0 <1`. A peer floor is set by which dgmo subpaths the code imports, and
+no import changed here — `remark-dgmo` 0.14.4 declares the same `>=0.61.0 <1`
+for its own peer. Raising it to match a version merely tested against would
+lock out sites this package still supports, for no gain.
+
+Nothing else changed: no source, no configuration, no fixture pins.
+
 ## 0.4.4
 
 **The licence names the company that now publishes this.** Diagrammo LLC
