@@ -72,5 +72,5 @@ const head = intro.replace(/<!--[\s\S]*?-->/g, '').trim();
 
 writeFileSync(pagePath, `${fm[0]}\n${head}\n\n${body}`);
 console.log(
-  `composed ${head.length} bytes of live-link intro + ${body.length} bytes of showcase into ${pagePath}`,
+  `composed ${head.length} bytes of live-link intro + ${body.length} bytes of showcase into ${pagePath}`
 );
