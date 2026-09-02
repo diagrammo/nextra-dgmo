@@ -9,14 +9,14 @@
     "start": "if command -v claim-port >/dev/null 2>&1; then claim-port 4345 || { [ $? -eq 3 ] || exit 1; exit 0; }; fi; next start --port 4345"
   },
   "dependencies": {
-    "@diagrammo/dgmo": "0.81.0",
+    "@diagrammo/dgmo": "0.82.0",
     "next": "^16.0.0",
     "nextra": "^4.0.0",
     "nextra-dgmo": "link:../..",
     "nextra-theme-docs": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "remark-dgmo": "0.15.3"
+    "remark-dgmo": "0.15.4"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
