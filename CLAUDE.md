@@ -8,10 +8,9 @@ Shared wrapper contract: [`../remark-dgmo/WRAPPER-CONVENTIONS.md`](../remark-dgm
 
 ## Versions — read `package.json`
 
-- `remark-dgmo` `^0.14.0` (moved 2026-08-04 — a caret on `0.x` locks the minor, so this never happens on its own)
-- peers: `@diagrammo/dgmo` `>=0.60.0 <1`, `nextra` `^4.0.0`, `next` `^15 || ^16`, `react` `^19`. The floor tracks remark-dgmo's own: 0.14.0 imports `@diagrammo/dgmo/live-link-resolve`, a subpath that first exists in dgmo 0.60.0
-- `tests/fixture/` pins both **exactly** (`0.14.0` / `0.60.0`) rather than by range, so the Pages showcase can never build against a `remark-dgmo` that predates live links
-- Caret on a `0.x` dep pins the **minor** — a `remark-dgmo` minor needs an explicit bump here
+- `remark-dgmo` and the `@diagrammo/dgmo` peer are open `>=X <1` ranges, in step with the other four wrappers; the dgmo floor never sits below the dgmo subpaths remark-dgmo imports. Other peers: `nextra` `^4.0.0`, `next` `^15 || ^16`, `react` `^19`
+- `tests/fixture/` pins both **exactly** rather than by range, so the Pages showcase can never build against an older `remark-dgmo` or renderer
+- An open range never re-resolves on its own — bump ranges and fixture pins on each release and check what the lockfile resolved
 
 ## Host specifics
 
@@ -24,9 +23,7 @@ Shared wrapper contract: [`../remark-dgmo/WRAPPER-CONVENTIONS.md`](../remark-dgm
 
 ## Verify
 
-`pnpm test:e2e` runs in CI as of **2026-08-06**, closing the gap that made this the only wrapper whose fixture CI never built. It static-exports `tests/fixture/` and runs `scripts/assert-build-output.mjs`: dual-render class names in the HTML, a `_next/static` CSS file carrying the rewritten `html.dark` selector, no jsdom sentinel in page chunks, and gzipped page JS within 100 KB of `baseline-bundle-size.json`. The script had been written but never once run; its first run passed.
-
-⚠️ **The baseline was re-seeded (265,320 → 272,398 gzipped bytes) in the same change**, deliberately. The old number was captured 2026-07-04 against dgmo 0.60.0 and `remark-dgmo` 0.14.0 and had never gated anything, so enforcing against it would have been enforcing a stale measurement of different pins.
+`pnpm test:e2e` runs in CI. It static-exports `tests/fixture/` and runs `scripts/assert-build-output.mjs`: dual-render class names in the HTML, a `_next/static` CSS file carrying the rewritten `html.dark` selector, no jsdom sentinel in page chunks, and gzipped page JS within 100 KB of `baseline-bundle-size.json`. Re-seed that baseline when the fixture pins move, or the check enforces a measurement of different pins.
 
 `pages.yml` still composes dgmo-content's all-chart-types page into the fixture and deploys it — that is a different build from the e2e one, and it stays.
 
